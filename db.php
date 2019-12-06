@@ -14,6 +14,9 @@ class Db{
                 $config['password'], $config['options']);
     }
     
+    /**
+     *  @return Db
+     */
     static public function getInstance(): self
     {
         if(null == self::$instance){
@@ -22,6 +25,9 @@ class Db{
         return self::$instance;
     }
     
+    /*
+     * Hardcord (instead need to write adapter)
+     */
     public function __call($name, $arg)
     {
         return $this->pdo->{$name}(...$arg);
@@ -30,6 +36,9 @@ class Db{
 
 abstract class Model{
     
+    /**
+     * really pdo
+     */
     protected $db;
     
     protected $stmt;
@@ -73,7 +82,8 @@ abstract class Model{
         if($this->insert()){
             return $this->afterSave();
         }
-        var_dump($this->stmt->debugDumpParams());
+        //should injected a logger
+        //var_dump($this->stmt->debugDumpParams());
         return false;
     }
     
